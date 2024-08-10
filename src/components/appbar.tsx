@@ -19,6 +19,8 @@ import {Avatar,  Tooltip} from "@mui/material";
 import MenuMUI from '@mui/material/Menu';
 import IconButton from '@mui/material/IconButton';
 import {color} from "@mui/system";
+import Link from "next/link";
+import Image from "next/image";
 
 const drawerWidth = 240;
 
@@ -44,13 +46,13 @@ const items: MenuItem[] = [
         label: 'Shipment',
         icon: <MailOutlined />,
         children: [
-            { key: '1', label: 'History' },
-            { key: '2', label: 'Upcoming' },
+            { key: '1', label: <Link href="/app/shipments/history">History</Link> },
+            { key: '2', label: <Link href="/app/shipments/upcoming">Upcoming</Link> },
         ],
     },
     {
         key: 'sub2',
-        label: 'Reports',
+        label: <Link href="/app/reports">Reports</Link> ,
         icon: <AppstoreOutlined />,
     },
     {
@@ -58,12 +60,12 @@ const items: MenuItem[] = [
     },
     {
         key: 'sub3',
-        label: 'Items',
+        label: <Link href="/app/items">Items</Link> ,
         icon: <AppstoreOutlined />,
     },
     {
         key: 'sub4',
-        label: 'Stock',
+        label: <Link href="/app/stocks">Stocks</Link> ,
         icon: <AppstoreOutlined />,
     },
 
@@ -123,6 +125,7 @@ export default function PersistentDrawerLeft({children}:{children:ReactNode}) {
     const [open, setOpen] = React.useState(false);
     const [anchorElUser, setAnchorElUser] = React.useState(null);
 
+
     const router = useRouter();
 
     const handleDrawerOpen = () => {
@@ -149,7 +152,7 @@ export default function PersistentDrawerLeft({children}:{children:ReactNode}) {
     return (
         <Box sx={{ display: 'flex' }}>
             <CssBaseline />
-            <AppBar position="fixed" open={open} sx={{backgroundColor: 'white', color:'black'}}>
+            <AppBar position="fixed" open={open} sx={{backgroundColor: 'white', color:'black', boxShadow: "rgba(0, 0, 0, 0.02) 0px 1px 3px 0px, rgba(27, 31, 35, 0.15) 0px 0px 0px 1px"}}>
                 <Toolbar>
                     <IconButton
                         color="inherit"
@@ -208,21 +211,28 @@ export default function PersistentDrawerLeft({children}:{children:ReactNode}) {
                 variant="persistent"
                 anchor="left"
                 open={open}
+                color={'red'}
             >
-                <DrawerHeader>
+                <DrawerHeader sx={{backgroundColor: '#001529'}}>
+                    <div className={'w-[100px] h-[100px] mr-auto'}>
+                        <Image alt={'logo'} src={'/images/logo2.png'} objectFit={'contain'} width={200} height={200} />
+                    </div>
                     <IconButton onClick={handleDrawerClose}>
-                        {theme.direction === 'ltr' ? <ChevronLeftIcon /> : <ChevronRightIcon />}
+                        {theme.direction === 'ltr' ? <ChevronLeftIcon sx={{color:'#FFFFFF'}}/> : <ChevronRightIcon/>}
                     </IconButton>
                 </DrawerHeader>
-                <Divider />
+
+
                 <Menu
                     onClick={onClick}
-                    style={{ width: 256 }}
+                    style={{width: '100%'}}
                     defaultSelectedKeys={['1']}
                     defaultOpenKeys={['sub1']}
                     mode="inline"
                     items={items}
+                    theme={'dark'}
                 />
+                <div className={'flex-1 bg-[#001529]'}></div>
             </Drawer>
             <Main open={open} sx={{color:'black', marginTop: '50px', paddingTop: '50px'}}>
                 {children}
