@@ -14,7 +14,7 @@ import ChevronRightIcon from '@mui/icons-material/ChevronRight';
 import { AppstoreOutlined, MailOutlined } from '@ant-design/icons';
 import {ReactNode} from "react";
 import {useRouter} from "next/navigation";
-import {Menu, MenuProps} from "antd";
+import {Menu, MenuProps, Select, Space} from "antd";
 import {Avatar,  Tooltip} from "@mui/material";
 import MenuMUI from '@mui/material/Menu';
 import IconButton from '@mui/material/IconButton';
@@ -29,45 +29,47 @@ type MenuItem = Required<MenuProps>['items'][number];
 const settings = ['Profile', 'Account', 'Dashboard', 'Logout'];
 
 const items: MenuItem[] = [
+
     {
-        key: 'grp',
-        label: 'Branches',
+        key: 'grp2',
+        label: <span className={'font-thin'}>Options</span>,
         type: 'group',
         children: [
-            { key: '13', label: 'Mallawapitiya' },
-            { key: '14', label: 'Uyandana' },
+            {
+                key: 'sub1',
+                label: <Link href="/app/dashboard">Dashboard</Link> ,
+                icon: <MailOutlined />,
+            },
+            {
+                key: 'sub1',
+                label: 'Shipments',
+                icon: <MailOutlined />,
+                children: [
+                    { key: '1', label: <Link href="/app/shipments/history">History</Link> },
+                    { key: '2', label: <Link href="/app/shipments/upcoming">Upcoming</Link> },
+                ],
+            },
+            {
+                key: 'sub2',
+                label: <Link href="/app/reports">Reports</Link> ,
+                icon: <AppstoreOutlined />,
+            },
+            {
+                type: 'divider',
+            },
+            {
+                key: 'sub3',
+                label: <Link href="/app/items">Items</Link> ,
+                icon: <AppstoreOutlined />,
+            },
+            {
+                key: 'sub4',
+                label: <Link href="/app/stocks">Stocks</Link> ,
+                icon: <AppstoreOutlined />,
+            },
         ],
     },
-    {
-        type: 'divider',
-    },
-    {
-        key: 'sub1',
-        label: 'Shipment',
-        icon: <MailOutlined />,
-        children: [
-            { key: '1', label: <Link href="/app/shipments/history">History</Link> },
-            { key: '2', label: <Link href="/app/shipments/upcoming">Upcoming</Link> },
-        ],
-    },
-    {
-        key: 'sub2',
-        label: <Link href="/app/reports">Reports</Link> ,
-        icon: <AppstoreOutlined />,
-    },
-    {
-        type: 'divider',
-    },
-    {
-        key: 'sub3',
-        label: <Link href="/app/items">Items</Link> ,
-        icon: <AppstoreOutlined />,
-    },
-    {
-        key: 'sub4',
-        label: <Link href="/app/stocks">Stocks</Link> ,
-        icon: <AppstoreOutlined />,
-    },
+
 
 ];
 
@@ -149,10 +151,14 @@ export default function PersistentDrawerLeft({children}:{children:ReactNode}) {
         setAnchorElUser(null);
     };
 
+    const handleChange = (value: string) => {
+        console.log(`selected ${value}`);
+    };
+
     return (
         <Box sx={{ display: 'flex' }}>
             <CssBaseline />
-            <AppBar position="fixed" open={open} sx={{backgroundColor: 'white', color:'black', boxShadow: "rgba(0, 0, 0, 0.02) 0px 1px 3px 0px, rgba(27, 31, 35, 0.15) 0px 0px 0px 1px"}}>
+            <AppBar position="fixed" open={open} sx={{backgroundColor: 'white', color:'black', boxShadow: "rgba(0, 0, 0, 0.02) 0px 1px 3px 0px, rgba(27, 31, 35, 0.15) 0px 0px 0px 1px", zIndex:'1000'}}>
                 <Toolbar>
                     <IconButton
                         color="inherit"
@@ -163,9 +169,24 @@ export default function PersistentDrawerLeft({children}:{children:ReactNode}) {
                     >
                         <MenuIcon />
                     </IconButton>
-                    <Typography variant="h6" noWrap component="div">
-                        Nawanjana International
-                    </Typography>
+                   <div className={'flex gap-2.5'}>
+                      <div className={'hidden md:flex'}>
+                          <Typography variant="h6" noWrap component="div">
+                              Nawanjana International
+                          </Typography>
+                      </div>
+                       <Space wrap>
+                           <Select
+                               defaultValue="1"
+                               style={{ width: 120 , zIndex:'2000'}}
+                               onChange={handleChange}
+                               options={[
+                                   { value: '1', label: 'Mallawapitiya' },
+                                   { value: '2', label: 'Uyandana' },
+                               ]}
+                           />
+                       </Space>
+                   </div>
                     <Box sx={{ flexGrow: 0, marginLeft:'auto' }}>
                         <Tooltip title="Open settings">
                             <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
@@ -221,6 +242,8 @@ export default function PersistentDrawerLeft({children}:{children:ReactNode}) {
                         {theme.direction === 'ltr' ? <ChevronLeftIcon sx={{color:'#FFFFFF'}}/> : <ChevronRightIcon/>}
                     </IconButton>
                 </DrawerHeader>
+
+              <div className={'w-full h-[20px] bg-[#001529]'}></div>
 
 
                 <Menu

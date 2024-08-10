@@ -141,11 +141,11 @@ const rowSelection: TableRowSelection<DataType> = {
 const Page = () =>{
     return (
         <div className={'flex flex-col gap-6'}>
-            <H2>Reports</H2>
-           <div className={'w-full flex justify-between'}>
-               <RangePicker />
-               <ButtonBP text={'Add New'} onClick={(event)=>{}}/>
-           </div>
+            <H2>Items Details</H2>
+            <div className={'w-full flex justify-end'}>
+                <ButtonBP text={'Add New'} onClick={(event) => {
+                }}/>
+            </div>
             <Table
                 columns={columns}
                 dataSource={data}
@@ -153,7 +153,6 @@ const Page = () =>{
         </div>
     );
 }
-
 
 
 export default Page;
