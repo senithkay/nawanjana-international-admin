@@ -143,7 +143,9 @@ const Page = () =>{
         <div className={'flex flex-col gap-6'}>
             <H2>Stock Details</H2>
            <div className={'w-full flex justify-end'}>
-               <ButtonBP text={'Add New'} onClick={(event)=>{}}/>
+               <ButtonBP  onClick={(event)=>{}}>
+                   Add New
+               </ButtonBP>
            </div>
             <Table
                 columns={columns}

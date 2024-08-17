@@ -21,12 +21,17 @@ import IconButton from '@mui/material/IconButton';
 import {color} from "@mui/system";
 import Link from "next/link";
 import Image from "next/image";
+import {showHideLoading} from "@/redux/loading";
+import axiosInstance from "@/utils/axiosInstance";
+import {RESPONSE_STATUS} from "@/utils/enums";
+import {authenticate} from "@/redux/auth";
+import {useAppDispatch} from "@/redux/hooks";
 
 const drawerWidth = 240;
 
 type MenuItem = Required<MenuProps>['items'][number];
 
-const settings = ['Profile', 'Account', 'Dashboard', 'Logout'];
+
 
 const items: MenuItem[] = [
 
@@ -41,7 +46,7 @@ const items: MenuItem[] = [
                 icon: <MailOutlined />,
             },
             {
-                key: 'sub1',
+                key: 'sub2',
                 label: 'Shipments',
                 icon: <MailOutlined />,
                 children: [
@@ -50,7 +55,7 @@ const items: MenuItem[] = [
                 ],
             },
             {
-                key: 'sub2',
+                key: 'sub3',
                 label: <Link href="/app/reports">Reports</Link> ,
                 icon: <AppstoreOutlined />,
             },
@@ -58,12 +63,12 @@ const items: MenuItem[] = [
                 type: 'divider',
             },
             {
-                key: 'sub3',
+                key: 'sub4',
                 label: <Link href="/app/items">Items</Link> ,
                 icon: <AppstoreOutlined />,
             },
             {
-                key: 'sub4',
+                key: 'sub5',
                 label: <Link href="/app/stocks">Stocks</Link> ,
                 icon: <AppstoreOutlined />,
             },
@@ -126,6 +131,7 @@ export default function PersistentDrawerLeft({children}:{children:ReactNode}) {
     const theme = useTheme();
     const [open, setOpen] = React.useState(false);
     const [anchorElUser, setAnchorElUser] = React.useState(null);
+    const dispatch = useAppDispatch();
 
 
     const router = useRouter();
@@ -154,6 +160,34 @@ export default function PersistentDrawerLeft({children}:{children:ReactNode}) {
     const handleChange = (value: string) => {
         console.log(`selected ${value}`);
     };
+    const settings = [
+        {
+            title:"Profile",
+            method: ()=>{
+                handleCloseUserMenu()
+                alert('profile')
+            }
+        },
+        {
+            title:"Logout",
+            method: ()=>{
+                handleCloseUserMenu()
+                axiosInstance.get('/auth/logout')
+                    .then((response)=>{
+                        if (response.status === RESPONSE_STATUS.SUCCESS){
+                            dispatch(authenticate({
+                                isAuthenticated: false,
+                                id:undefined,
+                                name:undefined,
+                                email:undefined,
+                                image:undefined,
+                            }))
+                            router.push('/auth/signin');
+                        }
+                    })
+            }
+        },
+    ];
 
     return (
         <Box sx={{ display: 'flex' }}>
@@ -210,8 +244,8 @@ export default function PersistentDrawerLeft({children}:{children:ReactNode}) {
                             onClose={handleCloseUserMenu}
                         >
                             {settings.map((setting) => (
-                                <MenuItem key={setting} onClick={handleCloseUserMenu}>
-                                    <Typography textAlign="center">{setting}</Typography>
+                                <MenuItem key={setting.title} onClick={setting.method}>
+                                    <Typography textAlign="center">{setting.title}</Typography>
                                 </MenuItem>
                             ))}
                         </MenuMUI>

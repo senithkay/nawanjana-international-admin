@@ -81,7 +81,7 @@ const Page =() => {
                         grid={{vertical: true, horizontal: true}}
                     />
                 </div>
-                <div className={'flex flex-col xl:ml-auto mx-auto'}>
+                <div className={'flex flex-col npm xl:ml-auto mx-auto'}>
                     <H2>Monthly Sales</H2>
                     <PieChart
                         series={[

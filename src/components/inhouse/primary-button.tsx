@@ -1,11 +1,12 @@
 import {Button} from "antd";
 
 type ButtonProps = {
-    text: string;
+    children: React.ReactNode;
     onClick: (event: React.MouseEvent) => void;
+    className?: string;
 }
 
-const ButtonBP = ({text, onClick}: ButtonProps)=>{
-    return ( <Button type="primary" onClick={onClick}>{text}</Button>);
+const ButtonBP = ({children, onClick, className}: ButtonProps)=>{
+    return ( <Button className={className} type="primary" onClick={onClick}>{children}</Button>);
 }
 export default ButtonBP;
